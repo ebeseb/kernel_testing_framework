@@ -1,15 +1,17 @@
 #ifndef KERNEL_V3_CUH
 #define KERNEL_V3_CUH
 
-/* ----- vectorAdd_v1 ------------------------------------------------------------------------------
-Change kernel to a grid stride loop and use loop unrolling. This is enhanced by vectorized loads
-and stores from global memory. The kernel has 16Kb of data "in flight" per SM at a given
-time.
+/* ----- vectorAdd_v3 ------------------------------------------------------------------------------
+Grid stride loop and using vectorized loads and stores from global memory.
+The kernel has 64kB of data "in flight" per SM at a given time.
+If each thread loads a single float coalasced from global memory, thats on cacheline (128bytes).
+Now if we switch to float2 or float4, we can load 2 or 4 entire cachelines with a single
+instruction. -> More transfer with the same number of instructions.
 bytes in flight per SM = # loads / thread
                          # bytes / load
                          # threads / block
                          # blocks / SM
-                         = 4 * 16 * 256 * 8 = 128Kb
+                         = 2 * 16 * 256 * 8 = 64Kb
 ------------------------------------------------------------------------------------------------- */
 __global__ void vectorAdd_v3(const float* __restrict__  a,
                              const float* __restrict__  b,
@@ -22,7 +24,6 @@ __global__ void vectorAdd_v3(const float* __restrict__  a,
     const int nrd = n >> 2; // n >> 2 == n / 4
    
     // Process 4 elements per thread using float4
-#pragma unroll 2
     for (int i = idx; i < nrd; i += stride)
     {
         const float4 a_vec = reinterpret_cast<const float4*>(a)[i];
@@ -63,7 +64,7 @@ public:
         const float *B = static_cast<const float*>(input[1].data());
         float *C       = static_cast<float*>(output);
         
-        int blockSize = 1024;
+        int blockSize = 256;
         int numBlocks = 170; // Fixed number of blocks for grid-stride loop
         
         vectorAdd_v3<<<numBlocks, blockSize, 0, stream>>>(A, B, C, output_size);

@@ -147,6 +147,9 @@ Runs a kernel once and compares the result with the previously registered
 ------------------------------------------------------------------------------------------------- */
 bool KernelTestFramework::checkCorrectness(KernelVersion* kernel, const TestConfig& config)
 {
+    bool result          = true;
+    int number_incorrect = 0;
+
     if (_reference_output == nullptr)
     {
         std::cerr << "No reference output provided for correctness check" << std::endl;
@@ -188,12 +191,18 @@ bool KernelTestFramework::checkCorrectness(KernelVersion* kernel, const TestConf
                               << ", reference=" << static_cast<float*>(_reference_output)[i] 
                               << ", relative_error=" << relative_error << std::endl;
                 }
-                return false;
+                result = false;
+                number_incorrect++;
             }
         }
     }
+
+    if(number_incorrect > 0)
+    {
+        std::cout << "Total number of incorrect elements: " << number_incorrect << std::endl;
+    }
     
-    return true;
+    return result;
 }
 
 /* ----- measurePerformance ------------------------------------------------------------------------

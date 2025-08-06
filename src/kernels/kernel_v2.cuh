@@ -1,16 +1,16 @@
 #ifndef KERNEL_V2_CUH
 #define KERNEL_V2_CUH
 
-/* ----- vectorAdd_v1 ------------------------------------------------------------------------------
-Change kernel to a grid stride loop and use loop unrolling. This has 32Kb of data "in flight" per SM
-at a given time.
-This is rather low to saturate modern GPU's bandwidth. On H100 this reaches around 80% peak BW,
-on B200 only ~50%.
+/* ----- vectorAdd_v2 ------------------------------------------------------------------------------
+Changed kernel to a grid stride loop and use automatic loop unrolling. This has 32Kb of data
+"in flight" per SM at a given time.
 bytes in flight per SM = # loads / thread
                          # bytes / load
                          # threads / block
                          # blocks / SM
                          = 4 * 4 * 256 * 8 = 32Kb
+Most likely this is not reached as the compiler will not assume it is safe to unroll. So some loads
+might be done inbetween the add operations. See kernel v4 for a solution to this behavior.
 ------------------------------------------------------------------------------------------------- */
 __global__ void vectorAdd_v2(const float* __restrict__  a,
                              const float* __restrict__  b,
@@ -45,7 +45,7 @@ public:
         const float *B = static_cast<const float*>(input[1].data());
         float *C       = static_cast<float*>(output);
         
-        int blockSize = 1024;
+        int blockSize = 256;
         int numBlocks = 170; // Fixed number of blocks for grid-stride loop
         
         vectorAdd_v2<<<numBlocks, blockSize, 0, stream>>>(A, B, C, output_size);

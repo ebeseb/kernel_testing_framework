@@ -7,9 +7,10 @@
 #include "kernels/kernel_v1.cuh"
 #include "kernels/kernel_v2.cuh"
 #include "kernels/kernel_v3.cuh"
+#include "kernels/kernel_v4.cuh"
+#include "kernels/kernel_v5.cuh"
 
-// Compile with: nvcc -o kernel_test.x main.cu
-
+// Compile with: nvcc -o kernel_test.x main.cu test_framework.cpp
 
 int main()
 {
@@ -26,6 +27,8 @@ int main()
     framework.registerKernel(std::make_unique<VectorAddV1>());
     framework.registerKernel(std::make_unique<VectorAddV2>());
     framework.registerKernel(std::make_unique<VectorAddV3>());
+    framework.registerKernel(std::make_unique<VectorAddV4>());
+    framework.registerKernel(std::make_unique<VectorAddV5>());
 
     auto config = KernelTest::TestConfig()
         .withPerformance(number_trials, number_warmups)
@@ -63,4 +66,5 @@ int main()
     
     return 0;
 }
+
 
