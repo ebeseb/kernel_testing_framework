@@ -9,6 +9,7 @@
 #include "kernels/kernel_v3.cuh"
 #include "kernels/kernel_v4.cuh"
 #include "kernels/kernel_v5.cuh"
+#include "kernels/kernel_v6.cuh"
 
 // Compile with: nvcc -o kernel_test.x main.cu test_framework.cpp
 
@@ -29,6 +30,7 @@ int main()
     framework.registerKernel(std::make_unique<VectorAddV3>());
     framework.registerKernel(std::make_unique<VectorAddV4>());
     framework.registerKernel(std::make_unique<VectorAddV5>());
+    framework.registerKernel(std::make_unique<VectorAddV6>());
 
     auto config = KernelTest::TestConfig()
         .withPerformance(number_trials, number_warmups)

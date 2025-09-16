@@ -3,9 +3,8 @@
 
 /* ----- vectorAdd_v1 ------------------------------------------------------------------------------
 Most simple version of vector add one can do. This has 16Kb of data "in flight" per SM at a given
-time.
-This is rather low to saturate modern GPU's bandwidth. On H100 this reaches around 80% peak BW,
-on B200 only ~50%.
+time. This is rather low to saturate modern GPU's bandwidth. On H100 this reaches around ~80% peak
+BW, on B200 only ~50%.
 bytes in flight per SM = # loads / thread
                          # bytes / load
                          # threads / block
@@ -25,6 +24,13 @@ __global__ void vectorAdd_v1(const float* __restrict__  a,
     }
 }
 
+
+/* -------------------------------------------------------------------------------------------------
+Class: VectorAddV1
+
+Class that implements the abstract base class methods. Most important here is the execute function
+which calls the kernel. Launch configuration and kernel constants are set up here.
+------------------------------------------------------------------------------------------------- */
 class VectorAddV1 : public KernelTest::KernelVersion
 {
 public:

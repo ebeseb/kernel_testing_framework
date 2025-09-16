@@ -4,7 +4,9 @@
 /* ----- vectorAdd_v5 ------------------------------------------------------------------------------
 All previous increases in BW utilization or "bytes in flight" are bought by using more registers in
 turn. This may be fine for kernels that are not compute-heavy. Otherwise this might cause a new
-issue by not having enough registers left for good occupancy.
+issue by not having enough registers left for good occupancy (check out CUDA 13.0 feature for
+spilling registers into shared memory:
+https://developer.nvidia.com/blog/how-to-improve-cuda-kernel-performance-with-shared-memory-register-spilling/).
 A way to get around this are async methods of memory loads, because they can go directly got to
 shared memory, skipping registers.
 ------------------------------------------------------------------------------------------------- */
