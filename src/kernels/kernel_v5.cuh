@@ -7,11 +7,9 @@ turn. This may be fine for kernels that are not compute-heavy. Otherwise this mi
 issue by not having enough registers left for good occupancy.
 A way to get around this are async methods of memory loads, because they can go directly got to
 shared memory, skipping registers.
-
-
 ------------------------------------------------------------------------------------------------- */
+#include <cuda/pipeline> // libcudacxx API
 
-#include <cuda/pipeline>
 
 template <int BLKSZ, int NUM_STAGES>
 __global__ void vectorAdd_v5(const float* __restrict__  a,
@@ -29,11 +27,12 @@ __global__ void vectorAdd_v5(const float* __restrict__  a,
 
     cuda::pipeline<cuda::thread_scope_thread> pipe = cuda::make_pipeline();
 
+#pragma unroll NUM_STAGES
     for(int stage = 0; stage < NUM_STAGES; ++stage)
     {
         pipe.producer_acquire();
         const int idx = offset + stage * stride;
-        if(offset < n)
+        if(idx < n)
         {
             cuda::memcpy_async(&a_buf[stage][tid], a + idx, sizeof(float), pipe);
             cuda::memcpy_async(&b_buf[stage][tid], b + idx, sizeof(float), pipe);
@@ -84,7 +83,7 @@ public:
         float *C       = static_cast<float*>(output);
         
         constexpr int blockSize           = 1024;
-        constexpr int num_pipeline_stages = 4;
+        constexpr int num_pipeline_stages = 2;
         int numBlocks                     = 170; // Fixed number of blocks for grid-stride loop
         
         vectorAdd_v5<blockSize, num_pipeline_stages><<<numBlocks, blockSize, 0, stream>>>
