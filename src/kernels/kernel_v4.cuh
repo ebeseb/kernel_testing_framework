@@ -31,16 +31,19 @@ __global__ void vectorAdd_v4(const float* __restrict__  a,
         for(int ii = 0; ii < UNROLL_FACTOR; ++ii)
         {
             const int idx = i + ii * BLKSZ;
-            const float4 a_vec = reinterpret_cast<const float4*>(a)[idx];
-            const float4 b_vec = reinterpret_cast<const float4*>(b)[idx];
-            
-            float4 c_vec;
-            c_vec.x = a_vec.x + b_vec.x;
-            c_vec.y = a_vec.y + b_vec.y;
-            c_vec.z = a_vec.z + b_vec.z;
-            c_vec.w = a_vec.w + b_vec.w;
-            
-            reinterpret_cast<float4*>(c)[idx] = c_vec;
+            if(idx < nrd)
+            {
+                const float4 a_vec = reinterpret_cast<const float4*>(a)[idx];
+                const float4 b_vec = reinterpret_cast<const float4*>(b)[idx];
+                
+                float4 c_vec;
+                c_vec.x = a_vec.x + b_vec.x;
+                c_vec.y = a_vec.y + b_vec.y;
+                c_vec.z = a_vec.z + b_vec.z;
+                c_vec.w = a_vec.w + b_vec.w;
+                
+                reinterpret_cast<float4*>(c)[idx] = c_vec;
+            }
         }
     }
 

@@ -60,7 +60,10 @@ __global__ void vectorAdd_v6(const float* __restrict__  a,
         }        
 
         __syncthreads(); // need sync threads, because not all threads take part in the data loading
-        c[i + tid] = a_buf[stage][tid] + b_buf[stage][tid];
+        if(i + tid < n)
+        {
+            c[i + tid] = a_buf[stage][tid] + b_buf[stage][tid];
+        }
         __syncthreads();
 
         if(tid < memcpy_threads)
