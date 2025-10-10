@@ -187,7 +187,8 @@ bool KernelTestFramework::checkCorrectness(KernelVersion* kernel, const TestConf
             {
                 if (config.verbose)
                 {
-                    std::cout << "Mismatch at index " << i << ": kernel=" << kernel_output[i] 
+                    std::cout << "In kernel " << kernel->getName() << ": "
+                              << "Mismatch at index " << i << ": kernel=" << kernel_output[i] 
                               << ", reference=" << static_cast<float*>(_reference_output)[i] 
                               << ", relative_error=" << relative_error << std::endl;
                 }
