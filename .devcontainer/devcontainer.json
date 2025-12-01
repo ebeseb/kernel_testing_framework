@@ -1,0 +1,13 @@
+{
+    "name": "CUDA Dev Container",
+    "image": "cuda-dev-container",
+    "runArgs": [
+        "--runtime=nvidia",
+        "--gpus", "all",
+        "-e", "DISPLAY=$DISPLAY",
+        "--cap-add=SYS_ADMIN",
+        "--security-opt", "seccomp=unconfined",
+        "--network", "host"
+    ],
+    "remoteUser": "ubuntu"
+}

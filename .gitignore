@@ -6,4 +6,5 @@
 *.fatbin
 *.x
 *.ncu-rep
+*.nsys-rep
 .vscode
