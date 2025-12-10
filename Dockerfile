@@ -17,9 +17,6 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends \
     cuda-toolkit-13-0 \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# ALL executables related to CUDA are here:
-# /usr/local/cuda/bin/
-
 ## Add things for Nsight GUI support
 RUN apt-get update -y && apt-get install -y --no-install-recommends \
     libfreetype6 \

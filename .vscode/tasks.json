@@ -1,0 +1,19 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "CMake Debug Configure & Build",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-S", ".",
+                "-B", "build",
+                "-DCMAKE_BUILD_TYPE=Debug",
+                "&&",
+                "cmake", "--build", "build"
+            ],
+            "options": { "cwd": "${workspaceFolder}" },
+            "problemMatcher": "$gcc"
+        }
+    ]
+}

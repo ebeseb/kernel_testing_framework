@@ -1,8 +1,17 @@
 # Simple Kernel Testing Framework
 ## Installation and Usage
-To compile and run the framework, navigate to the src folder and run
-`nvcc -o kernel_test.x main.cu test_framework.cpp`
-Then run `./kernel_test.x`
+To compile the code the framework uses CMake. Current configurations are Debug and Release. Release includes the `-lineinfo` flag for source view in Nsight Compute. From the root of the repo run:
+```bash
+# Compile with CMake:
+mkdir build
+cmake -S . -B build/ -D CMAKE_BUILD_TYPE=Debug
+# or
+cmake -S . -B build/ -D CMAKE_BUILD_TYPE=Release
+cmake --build build/
+```
+Then run `./build/bin/kernel_test.x`
+
+The files in `.vscode` are setup in a way such that debugging in VSCode will always configure and build the Debug build before starting the debugging session with F5 to always ensure an up to date build.
 
 
 ### Docker and Dev Container

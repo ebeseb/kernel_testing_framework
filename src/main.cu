@@ -11,7 +11,13 @@
 #include "kernels/kernel_v5.cuh"
 #include "kernels/kernel_v6.cuh"
 
-// Compile with: nvcc -o kernel_test.x main.cu test_framework.cpp
+// Compile with CMake:
+// mkdir build
+// cmake -S . -B build/ -D CMAKE_BUILD_TYPE=Debug
+// or
+// cmake -S . -B build/ -D CMAKE_BUILD_TYPE=Release
+// cmake --build build/
+
 
 int main()
 {
@@ -68,5 +74,3 @@ int main()
     
     return 0;
 }
-
-

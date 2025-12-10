@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "CUDA C++: Launch Debug Session",
+            "type": "cuda-gdb",
+            "request": "launch",
+            "preLaunchTask": "CMake Debug Configure & Build",
+            "program": "${workspaceFolder}/build/bin/kernel_test.x",
+            "cwd": "${workspaceFolder}/build/bin",
+            "stopAtEntry": true
+        }
+    ]
+}
