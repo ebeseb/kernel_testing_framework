@@ -9,6 +9,16 @@
             "program": "${workspaceFolder}/build/bin/kernel_test.x",
             "cwd": "${workspaceFolder}/build/bin",
             "stopAtEntry": true
+        },
+        {
+            "name": "CUDA C++: Launch Release (no debug)",
+            "type": "cppdbg",
+            "request": "launch",
+            "preLaunchTask": "CMake Release Configure & Build",
+            "program": "${workspaceFolder}/build/bin/kernel_test.x",
+            "cwd": "${workspaceFolder}/build/bin",
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb"
         }
     ]
 }

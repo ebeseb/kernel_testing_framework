@@ -35,13 +35,13 @@ target_link_libraries(kernel_test.x PRIVATE CUDA::cudart)
 # Configure different builds
 # Debug
 target_compile_options(kernel_test.x PRIVATE
-    $<$<CONFIG:Debug>:-O0 -g -DDEBUG>
-    $<$<AND:$<CONFIG:Debug>,$<COMPILE_LANGUAGE:CUDA>>:-G -O0 -g -G>
+    $<$<CONFIG:Debug>:-O0 -g -DDEBUG>                                # all languages
+    $<$<AND:$<CONFIG:Debug>,$<COMPILE_LANGUAGE:CUDA>>:-G -lineinfo > # CUDA
 )
 
 # Release
 target_compile_options(kernel_test.x PRIVATE
     $<$<CONFIG:Release>:-O3 -DNDEBUG>
-    $<$<AND:$<CONFIG:Release>,$<COMPILE_LANGUAGE:CUDA>>:-O3 -Xptxas -O3 -lineinfo>
+    $<$<AND:$<CONFIG:Release>,$<COMPILE_LANGUAGE:CUDA>>:-Xptxas -lineinfo -ffast-math>
 )
 

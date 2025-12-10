@@ -3,6 +3,8 @@ FROM ubuntu:24.04
 ## Cover the bases
 RUN apt-get update -y && apt-get install -y --no-install-recommends \
     build-essential \
+    gdb \
+    valgrind \
     cmake \
     git \
     wget \

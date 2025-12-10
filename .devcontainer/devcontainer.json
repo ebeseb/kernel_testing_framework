@@ -1,6 +1,6 @@
 {
     "name": "CUDA Dev Container",
-    "image": "cuda-dev-container",
+    "image": "cuda-dev-container:latest",
     "runArgs": [
         "--runtime=nvidia",
         "--gpus", "all",

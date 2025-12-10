@@ -13,6 +13,7 @@ Then run `./build/bin/kernel_test.x`
 
 The files in `.vscode` are setup in a way such that debugging in VSCode will always configure and build the Debug build before starting the debugging session with F5 to always ensure an up to date build.
 
+For it all to work in the devcontainer, make sure to install `Nsight VSCode Edition` and `C/C++ Extension Pack` extensions also inside the devcontainer, not just on the local VSCode.
 
 ### Docker and Dev Container
 This repo includes a `Dockerfile` and `devcontainer.json` for portability.
